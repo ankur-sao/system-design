@@ -1,0 +1,81 @@
+Q-1: Can a client wrap an synchronous call to make it asynchronous?
+A:  Why not? Client can wait for response from server in a saparate thread from
+main thread. 
+Is this wait is polling? No.
+This wait function will always be in top of the stack of calls and
+the  control returns from this function  untill a reply is recieved from server. 
+In this case, server is  also synchronous, and wont accept any other requests
+untill the one in hand is responded.
+
+Client can wrap it asynchronously also via polling in saparate thread. 
+A saparate thread can poll the server to check if response is ready.
+Server is asynchronous  in this case. It can accept more requests
+while it processes existing requests by pushing them onto  a queue.
+
+Why does client need to poll the server? Why can't server notify client?
+What architectural requirement needs to be satisfied to make server notify
+when the response is ready without making client poll?
+
+Q-2: How does an asynchronous server sends response to a client?
+A: Server can send an event(http post with request id) to the client.
+   Client then can make (http get request with request id) and server can respond.
+   This  way server knows  client is still interested in the response.
+
+   Server can send the whole response(http post with request id with response-body).
+   A thread listening on  these responses will notify main thread that we have a response ready,
+   and then main thread can take appropriate action.
+
+
+Q-3: What is http request / http response?
+A:
+
+Q-4: Is notification in system-design terminology a RPC?
+A:  It can be an RPC among other things. 
+
+Q-5: Is dispatching in system-design terminology a RPC?
+A: It can be an RPC among other things.
+
+Q-6: What  is a RPC?
+A: 1.Rpc is a request-response protocol. Initiated by client. Client sends request to a
+known server to execute a specified procedure with supplied parameters.
+2. Server returns a response to the client and client continues  its process.
+3. Client  is blocked, while server executes the procedure.
+4. Client is not blocked if it has sent an asynchronous request.
+5. Rpc is done  over network, hence all the unpredictability/issues  of  network
+   becomes issues of your code  via RPC.
+6.Caller must deal with failure without knowing  whether server actually
+executed the procedure.
+
+Sequence of events in an RPC:
+1. Client calls the client stub (LPC) and params are pushed onto stack.
+2. The stub marshals the params into a message  and makes a system call.
+3. Os sends the message to remote server's  OS.
+4. Remote server's OS, calls the server stub and passes the message.
+5. Server stub unmarshals the message and reads the params.
+6. Params are passed to the procedure and result  is send back to client tracing the
+   same path it came from.
+
+Q-7: Is Rpc asynchronous, synchronous , or both?
+A: It can be both.
+
+Q-8: What is an event loop?
+A:
+
+Q-9: What is address space of a process?
+A:
+
+Q-10: What is the ifference between big-endian and little-endian architecture?
+     And how to related to marshalling  and unmarshalling of data?
+A:
+
+Q-11: What is marshalling and unmarshalling of data?
+A: Packing of function parameters into a message by stub is called marshalling.
+   Unpacking of function parameters from a message by stub is called  unmarshalling.
+
+
+
+
+
+
+
+

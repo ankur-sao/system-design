@@ -1,4 +1,42 @@
+1/ What  are message-queue or task queue?
+Ans: Message queue is a system that combines following 5 feature:
+1. heart-beat mechanism
+2. load balancing
+3. Persistence
+4. Asynchronous request/response
+5. Notifier
 
 
-:wq!
-:w
+2/ When do you use message queue?
+ans: 
+
+
+3/ State one example problem where message-queue can be used?
+ans: Multiple pizza shops delivering take away orders. 
+If one shop goes down, its orders can be re-routed to other shops if
+orders are persisted. Hence persistence is required for reliability.
+
+We need a central dispatcher to re-route orders from failed shops to 
+active shops. This dispatcher should load balance orders to all active
+shops. Hence load balancing is needed. To only re-route orders from failed node
+, consistent hashing is needed. Without consistent hashing, order duplication will happen.
+Once dispatched, orders can't be undispatched. It  can only be re-routed in case of a failure.
+
+In db, orders can be persisted using following columns;
+|---|-----------|--------|----------- |
+|id |  content  | status | server  id |
+|---|-----------|--------|----------- |
+
+Once a node becomes inactive, do we need to re-route all the orders using C-hashing
+or re-route just orders from inactive node?
+--> If we re-route all the orders using consisten-hashing, we dont need to maintain server-id against
+order-id.
+
+--> If we re-route only orders from inactive node, we need to maintain server-id and update server-id
+if again re-rerouting happens and server-id is changed. Server-id means extra write operation.
+
+Asynchronous-synchronous eventloop :
+https://stackoverflow.com/questions/5971301/determining-synchronous-vs-asynchronous-in-web-applications
+
+
+

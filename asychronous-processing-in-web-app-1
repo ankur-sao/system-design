@@ -1,0 +1,103 @@
+Asynchronous processing is needed in following examples:
+1. live chat app where we need to process and resize an image.
+2. slice up and transcode image.
+3. log analysis
+4. send emails at high volume.
+
+When asynchronous processing is needed theoritically? 
+t>=1 second.
+
+1. Web applications have lot of code that runs as part of http request response
+cycle. If the reponse takes few 100ms, then synchronous works fine. If t>=1 second
+is very  slow for synchronous execution.
+2. When processing needs to be scheduled for future or when it needs to query external
+service, asynchronous processing becomes necessary.
+
+In these cases, when task to be executed is not a candidate for synchronous processsing,
+best course of action is to move execution out of http request response cycle.
+
+How would it work at a very high level?
+A synchronoys web app can simply notify another service to execute the task.
+Web app can respond quickly to the request acknowledging the request.
+
+Asynchronous processing has two aspects :
+1. services that creates a task. 
+2. services that consumes a task. (processing task)
+
+
+In order to achieve asynchronous processing, we need multiple saparate processes to
+be able   to pass  information to one another. 
+(producers p1,p2,p3,p4) : write
+(consumers c1,c2,c3,c4): read/update
+
+Lets use a database ???
+Lets maintain a db table with taskid and a flag for status(completed/processing/failed).
+Producers can write on the db, consumers can pick up tasks from the db.
+In case any of the consumers fails, other consumers can pick up those tasks.
+Should work right?
+
+Noooo
+
+
+There are multiple very good reasons for not using a database:
+1. Polling can hurt. 
+Why polling can hurt? Where do you need polling?
+First aspect of task execution is how to best consume and process tasks stored in table within a db.
+Consumers need to constantly poll the db to see if there are new tasks available for execution. (DB can't notify)
+Polling with short interval can hammer db with constant read queries.
+Polling with long intervals can unnecessarily increase the execution time of a task.
+Long polling intervals also means fastest route through the system is the sum of
+all the polling intervals.
+
+Polling is effective only with short intervals.
+
+The task table in the db will have constant three operations on it:
+1. Read
+2. update
+3. write
+
+Table can be optimized to fast at one of these things and never all.
+Therefore all the consumers will be fighting to consume tasks from task-table.
+
+Affect:
+1. Race conditions
+2. Locks
+
+Result:
+1. load increase of db
+2. performance decrease of db
+3. pile ups becoming common
+
+
+Manual clean up:
+Cleaning up of completed tasks need to be done manually.
+Delete is not efficient for a table. Specially when constant write/update/read is happening.
+
+Scaling wont be easy.
+Following issues will make scaling difficult.
+1. Constant polling
+2. Race conditions
+3. Deadlocks.
+4. Manual clean up
+5. Manual handling of failed tasks (No load balancing/heart-beat)
+
+Exception:
+PostgreSQL and its excellent notify support.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+Message queue :
+
+1. Can support significant higher volume of concurrent messages.
+2. Messages are pushed in real time, instead of periodically polled.
+3. Messages are automatically cleaned up after being recived.
+4. No deadlocks and race conditions.
+
+What is a message-queue?
+1. A way for apps/systems/components to communicate reliably.
+
+2. Message queue is a broker that facilitate message passing by providing
+protocol or interface that other service can access.
+
+3. The interface connects producers which creates message and
+ consumers which processes the  message.
+
+4.One typical case is, producer is client application which 
+creates a message based on user interaction(user sign up).
+
+Features:
+
+1. Multiple queues allow different messages sent to different queues.
+This allows messages of different types to be consumed by different
+services. Consumer processing images can be on different queue
+than consumer sending bulk emails.
+1.1 Message delivery behavior is based on need.
+Messages coming from some producers go to a single consumer. (direct)
+Messages coming from some producers go to multiple listening consumers. (fanout)
+
+2. Robustness and reliability through persistence.
+2.1 Messages are persisted untill they are processed and delivered.
+In case consumers/message-queue goes down, messages can be processed again
+once they come back online.
+
+2.2 Persistence is relevant for deployments and updating code, since
+restarting components no longer puts messages at risk.
+
+3. Greater visibility in volume of messages.
+3.1 For handling high volume of messages, we can horizonatally scale consumers.
+3.2 App itself is not handling the messages, so high volume wont increase
+ response time of front end web app.
+
+4. Architectural benefit:
+4.1 Subsystems easier to maintain, debug, test and scale.
+4.2 Since message-queue  enables light weight communication between any number of
+disparate services , it is easy  to divide the app into smaller subsystem.
+
+
+Considerations:
+1. Setting up and configuring message queue can add alot of moving part to app.
+2. Small apps doesnt need message-queue early on, can slowly move to it once volume increases.
+
+
+Comparing message queues:
+1. Lots of message queues available: kafka, sparrow, starling, kestrel, Amazon SQS.
+2. Emerging open standard protocol for message queue: 
+   2.1 AMQP   --> RabbitMQ
+   2.2 STOMP  --> Apache Active MQ (also on JMS)
+
+other standards: JMS(HornetQ, Apache Active MQ), ZMTP (ZeroMQ)
+
+ZeroMQ:
+
+1. Framework for building message queue.
+2. ZeroMQ focuses on passing the message very efficiently over the wire.
+3. ZeroMQ has no broker, which means it doesn not have central dispatcher
+to manage messages and is not really a fully service message queue.
+
+
+RabbitMQ:
+1. RabbitMQ is a fully fledged broker which handles persisting, filtering and monitoring messages.
+2. Requires less configuration and setup overhead for typical use cases.
+
+
+ZeroMQ vs RabbitMQ:
+ZeroMQ is toolbox or framework to create a message-queue tailored to our needs.
+RabbitMQ is fully fledged message queue implementation.
+
+RabbitMQ /ActiveMQ choose to sacrifice raw speed with other features.
+
+RabbitMQ vs ActiveMQ:
+1. Difference is  in details. High level, they are the same thing.
+2. ActiveMQ is built in java based on JMS, 
+frequently used on JVM apps (java, scala, closure)
+3.  ActiveMQ supports  STOMP, which provides support for
+Ruby, PHP, Python.
+4. RabbitMQ is built on erlang, powered  by AMQP.
+5. ActiveMQ configuration is in XML, and routing of messages
+is handled by custom rules defined by AcitveMQ.
+6. RabbitMQ configuration is in Erlang syntax. Routing and configuration follow AMQP spec.
+
+Difference between AMQP and JMS:
+1. AMQP: producers sends message to broker without knowing intended distribution strategy.
+   JMS: Producer is aware of  the strategy explicitly.
+
+General trend:
+Python, ruby app : RabbitMQ/AMQP
+Scala, Java, Jvm stack: ActiveMQ
+ZeroMQ: if you want to do it yourself for specific use case.
+
+
+
+
+
+
+
+
+    
+
+
