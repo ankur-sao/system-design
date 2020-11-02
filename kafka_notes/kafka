@@ -105,14 +105,31 @@ It provides easy scalability functionality with a large throughput.
 
 
 
-Key components and concepts:
+Key components/concepts:
 1. Messages/Records
 2. Topics
 3.Brokers and distribution
 4. Producers
 5.Consumers
 6. Connectors
+7. KSQL
 
+5 components:
+1. kafka broker
+2. kafka client (producer/consumer)
+3. kafka connect
+4. kafka stream
+5. kafka SQL
+
+Fundamental  concepts:
+1. Producer
+2. Consumer
+3. Broker
+4. Cluster
+5. Topic
+6. Partition
+7. Offset
+8. Consumer groups
 
 Use cases:
 1. Stream processing pipeline (Honeywell , Uber)

@@ -1,0 +1,6 @@
+Consumer requests the broker for messages. 
+
+How does consumer knows that the messages are available and it needs to request for it?
+
+
+
