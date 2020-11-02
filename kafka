@@ -1,0 +1,138 @@
+Apache kafka
+src: https://medium.com/swlh/apache-kafka-startup-guide-system-design-architectures-notification-system-web-activity-tracker-6dcaf0cf8a7
+
+1. Definition
+2. Structure and  working
+3. Features
+4. Key components and key concepts
+5. Use cases in infrastructure system  design.
+
+1. Definition
+Kafka is a opensource distributed stream processing platform through which we can publish and subscribe stream of records, 
+store these records, and process and extract these records on the go.
+Most common use cases: real-time streaming data pipeline, realtime streaming ELT/ETL framework.
+
+2. Structure and working:
+Kafka is always setup as a cluster with one or more servers in the cluster. Server is called broker. 
+Streams of records is stored on this cluster inside categories called topics. 
+Each entry in a topic is called record. 
+
+5 core APIs:
+1. producer api
+2. consumer api
+3. connector api
+4. Streams api
+5. admin api
+
+<1-4> api's are used for stream input/output operations.
+<5> is cluster management and inspection api.
+
+Every communication in kafka is done via TCP.
+
+3.Features:
+
+1. High throughput:
+Kafka provides relatively high throughput compared to other messaging systems such as RabbitMQ, ActiveMQ. 
+A large number of messages can easily be processed by a deployment of average size.
+Other messaging systems would require bigger deployments and lots of node to achieve the same message processing capacity.
+
+sidenote: throughput vs latency
+
+Latency  is time between making a request and beginning to see a result.
+Throughput is number of items processed per unit time. eg, bits xmitted per second,
+http requests handled per day,  Throughput is found by adding up the number of items and dividing by the sample interval.
+
+The following examples help clarify the difference between latency and throughput:
+
+An overnight (24-hour) shipment of 1000 different CDs holding 500 megabytes each has terrific throughput but lousy latency. 
+The throughput is (500 × 220 × 8 × 1000) bits/(24 × 60 × 60) seconds = about 49 million bits/second, which is better than a T3’s 45 million bits/second. 
+The difference is the overnight shipment bits are delayed for a day and then arrive all at once, but T3 bits begin to arrive immediately, 
+so the T3 has much better latency, even though both methods have approximately the same throughput when considered over the interval of a day.
+ We say that the overnight shipment is bursty traffic. 
+This example was adapted from Computer Networks by Andrew S. Tanenbaum (Prentice Hall, 1996).
+
+Trucks have great throughput because you can carry so much on them, but they are slow to start and stop.
+ Motorcycles have low throughput because you can’t carry much on them, but they start and stop more quickly 
+and can weave through traffic so they have better latency.
+
+Supermarkets would like to achieve maximum throughput per checkout clerk because they can then
+ get by with fewer clerks. One way for them to do this is to increase your latency — that is, 
+to make you wait in line, at least up to the limit of your tolerance. 
+In his book Configuration and Capacity Planning for Solaris Servers (Prentice Hall),
+ Brian Wong phrased this dilemma well by saying that throughput is a measure of organizational productivity while latency is a measure of individual productivity. 
+The supermarket may not want to waste your individual time, 
+but it is even more interested in maximizing its own organizational productivity.
+
+One woman has a throughput of one baby per nine months, barring twins, triplets, etc. Nine women may be able to bear nine babies in nine months, 
+giving the group a throughput of one baby per month, even though the latency cannot be decreased (i.e., even nine women cannot produce one baby in one month). 
+This mildly offensive but unforgettable example is from The Mythical Man-Month by Frederick P. Brooks (Addison Wesley).
+
+Although high throughput systems often have low latency, there is no causal link.
+ You’ve just seen how an overnight shipment can have high throughput with high latency. 
+Large disks tend to have better throughput but worse latency; the disk is physically bigger, 
+so the arm has to seek longer to get to any particular place. The latency of packet network connections 
+also tends to increase with throughput. As you approach your maximum throughput, 
+there are simply more or larger packets to put on the wire, so a packet will have to wait longer for an opening, increasing latency. 
+This is especially true for Ethernet, which allows packets to collide and simply retransmits them if there is a collision, hoping that it 
+retransmitted  them into an open slot. It seems obvious that increasing throughput capacity will decrease latency for packet switched networks. 
+However, while latency due to traffic congestion can be reduced,
+ increasing bandwidth will not help in cases in which the latency is imposed by routers or sheer physical distance.
+
+Finally, you can also have low throughput with low latency:
+ a 14.4 kbps modem may get the first of your bits back to you reasonably quickly, 
+but its relatively low throughput means it will still take a tediously long time to get a large graphic to you. 
+With respect to the Internet, the point to 
+remember is that latency can be more significant than throughput. For small HTML files, 
+say under 2K, more of a 28.8 kbps modem user’s time is spent between the request and the beginning of a response 
+than waiting for the file to complete its arrival.
+
+2. Durability
+   Messages are persisted. Hence it is durable. In case of broker crash, we can start consuming records exactly from where we left of.
+
+3. Data replication
+Kafka provides data replication functionality.
+ More replication means that more subscribers can consume topics parallel.
+ Data replication is also done to prevent data loss in case of a crash.
+There is a limit for number of consumer for a replica.
+
+
+4. Stream processing
+ provides functionality to build real-time streaming data pipelines that enable reliable data interchange between systems and applications. 
+
+5. Scalability
+Scalability capabilities of Kafka are one the best among all the messaging services/streaming platforms in the world right now. 
+It provides easy scalability functionality with a large throughput.
+
+
+
+Key components and concepts:
+1. Messages/Records
+2. Topics
+3.Brokers and distribution
+4. Producers
+5.Consumers
+6. Connectors
+
+
+Use cases:
+1. Stream processing pipeline (Honeywell , Uber)
+2. Storage system (Netflix, keystone)
+3. Notification/messaging system
+4. Website activity tracker
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
