@@ -1,0 +1,26 @@
+Download kafka  from confluent.io.
+Suprisingly its a java application. I expected it to be 
+a container.  
+for mac:
+
+brew install zookeeper
+starting zookeeper: /usr/local/bin/zkServer start
+zookeeper configfile:  /usr/local/etc/zookeeper/zoo.cfg
+zookeeper  data  directory: /usr/local/var/run/zookeeper/data/
+
+stop zookeeper:
+sudo zookeeper-server-stop 
+
+
+kafka details:
+
+binaries and scripts: /usr/local/bin/
+kafka configuration: /usr/local/etc/kafka
+zookeerp configuration: /usr/local/etc/zookeeper
+kafka data: /usr/local/var/lib/kafka-logs
+
+
+brew install kafka 
+kafka-server-start /usr/local/etc/kafka/server.properties
+
+

@@ -1,0 +1,8 @@
+Group of consumers.
+
+How kafka scales from producer facing side?
+Scales horizontally by adding more nodes to the broker  cluster,
+add more partition for the topic (limited  by the number of nodes in the cluster).
+
+A partition can be read from atmost one consumer ??
+ 

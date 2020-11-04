@@ -1,0 +1,5 @@
+Offset is sequence id of a message in a partition.
+
+Sequence id is local per partition.
+
+Topic --> partition  number --> offset

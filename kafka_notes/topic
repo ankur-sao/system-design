@@ -1,0 +1,7 @@
+Each category of data is aggregated inside a topic.
+
+If a topic gets data  more than the capacity of single broker,
+than partitions are created and stored in other brokers.
+
+Number of partitions for a topic is a design decision.
+
