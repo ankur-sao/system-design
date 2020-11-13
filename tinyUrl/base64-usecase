@@ -1,0 +1,18 @@
+Use case of base64:
+
+Hashes are one-way functions that transform a block of bytes into
+another block of bytes of a fixed size such as 128 bits or 256 bits.
+Converting the resulting bytes into Base64 makes it easier to displaythe hash especially when you are comparing a checksum for integrity.
+Hashes are always seen in Base64 that many people mistake Base64 itself as the hash.
+
+Cryptography:
+Since an encryption key does not have to be text but raw bytes,
+it  is sometimes necessary to store  it in a file  or database, which
+Base64 comes in handy for. Same with the encrypted bytes.
+
+Base64 is not  a security  mechanism. Anyone can convert  Base64
+string back to its original bytes, so it should not be used as a
+means for protecting data, only as a format to display or store raw bytes more easily.
+
+
+

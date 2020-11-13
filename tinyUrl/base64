@@ -1,0 +1,58 @@
+Base64 is 6 bit encoding.
+Computers stores data in blocks of 8 bit called bytes.
+
+ASCII is 8 bit encoding.
+Any text is first converted to binary representation using ASCII.
+
+Starting from left most bits, blocks of 6 bits are combined to make
+1 character from Base64 encoding. 
+
+Since 3*8 = 4*6.
+
+M    a     n
+77   97    110
+01001101 01100001 01101110
+
+010011 010110 000101 101110
+19     22      5      46
+
+T  W F u
+TWFu
+
+M  a
+01001101 01100001
+
+010011 010110 0001+00  '='
+19  22         E      =
+T W E=
+TWE=
+
+Base64 is 6bit encoding. Modern computer stores data in 8-bit octets.
+Every 4 character in Base64 encoding  = 3 octets of unencoded data
+This means when the length of the  unencoded input is not a multiple of three, 
+the encoded output must gave padding added so that its length is a multiple of 4.
+
+One consequence of sextet encoding of the octet is that the same octet will 
+be encoded differently depending on its position within a three-pctet group of the 
+input and depeding on which octet precedes it within the group.
+
+
+As the eight bits of an octet are spread across multiple sextets within the output, 
+this is an obvious consequence, since no octet can be stuffed 
+into a single sextet; instead they must share.
+
+However, since the sextets or characters of the output must be saved and 
+manipulated on the same computer system, which only understands octets, 
+they must be represented as octets, with the upper two bits set to zero.
+ (In other words, the encoded output YW55 occupies 4*8 = 32 bits, 
+even though only 24 bits are meaningfully derived from the input, any.) 
+Indeed, these supposedly wasted bits are exactly the reason for the Base64 encoding.
+ The ratio of output bytes to input bytes is 4:3 (33% overhead). Specifically, 
+given an input of n bytes, the output will be  4/3n
+
+
+
+
+
+
+

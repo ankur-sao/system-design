@@ -1,0 +1,28 @@
+At most once, at least once, exactly once:
+
+Idempotence is a kafka producer feature and configuration.
+enable.Idempotence  = true.
+
+Broker assignes a unique producer id to each producer during
+producer-broker handshake.
+
+Producer assignes message-id to each message it sends to broker.
+Idempotency is maintained using the sequence id of the messages sent by
+producer. 
+It is expected to be little slow than a  kafka  setup
+without idempotency, as messages with only expected sequence id is accepted
+and others are rejected.
+
+Each messages is assigned a unique sequence id.
+
+If a messages is rejected by broker, how does producer handle the scenario?
+
+Is this similar to how packet is transmitted in tcp?
+
+
+
+
+
+
+
+ 
